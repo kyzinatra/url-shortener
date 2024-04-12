@@ -1,0 +1,64 @@
+---
+import { generateShortURL } from "../../service/url/generate";
+import Copy from "../icons/copy.astro";
+import "./shorter.css";
+
+let link: null | string = null;
+let error: null | string = null;
+
+if (Astro.request.method === "POST") {
+	try {
+		const body = await Astro.request.formData();
+		const url = body.get("link");
+		if (!url || typeof url !== "string") throw new Error("invalid URL");
+
+		link = "https://kyzinatra.com/l/" + (await generateShortURL(url, Astro));
+	} catch (e) {
+		error = (e as Error).message;
+	}
+}
+---
+
+<main class="main">
+	<form method={link ? "GET" : "POST"} class="form">
+		{
+			!link && (
+				<input
+					type="text"
+					name="link"
+					class="form__link"
+					placeholder="http://google.com"
+					required
+				/>
+			)
+		}
+		{
+			link && (
+				<p class="form__link form__result">
+					<Copy />
+					{link}
+				</p>
+			)
+		}
+		<button type="submit" class="form__button">{link ? "Go Back" : "Generate"} </button>
+	</form>
+	{(<p class="form_error">{error}</p>)}
+
+	<script>
+		const res = document.querySelector(".form__result");
+		res?.addEventListener("click", (e) => {
+			const target = (e.target as HTMLElement).closest("p")!;
+			const content = target.textContent || "";
+			const selection = window.getSelection();
+			const range = document.createRange();
+			range.selectNodeContents(target);
+			selection?.removeAllRanges(); // очистить существующее выделение
+			selection?.addRange(range); // добавить новый диапазон
+
+			if (navigator.clipboard) {
+				navigator.clipboard.writeText(content || "");
+				return;
+			}
+		});
+	</script>
+</main>

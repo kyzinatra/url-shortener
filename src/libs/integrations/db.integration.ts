@@ -1,5 +1,5 @@
 import type { AstroIntegration } from "astro";
-import { getDB } from "../libs/db";
+import { getDB } from "../db";
 
 export default function mongoose(): AstroIntegration {
 	return {
