@@ -3,6 +3,7 @@ import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import { Client } from "../../schemas/client/client.schema";
 import { Link } from "../../schemas/link/link.schema";
 import { getRandomString } from "../../utils/get-random-string";
+import { getDB } from "../../libs/db";
 
 type TAstro = Readonly<
 	AstroGlobal<Record<string, any>, AstroComponentFactory, Record<string, string | undefined>>
@@ -18,6 +19,7 @@ async function getNewRef() {
 
 export async function generateShortURL(url: string, Astro: TAstro): Promise<string> {
 	const parsedURL = new URL(url);
+	await getDB();
 
 	const clients = await Client.find({
 		ip: Astro.clientAddress,
