@@ -24,7 +24,7 @@
 
 ## Развертывание
 
-Проект развернут и доступен по адресу: ["https://kyzinatra.com/"](https://kyzinatra.com/).
+Проект развернут и доступен по адресу: [https://kyzinatra.com/](https://kyzinatra.com/).
 
 ## Локальная разработка
 
