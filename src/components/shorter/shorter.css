@@ -19,7 +19,7 @@
 	animation: errorAnim 0.2s linear forwards;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	max-width: max(500px, 60%);
+	max-width: calc(100vw - 40px);
 	overflow: hidden;
 }
 
