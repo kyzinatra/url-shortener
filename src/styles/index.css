@@ -16,6 +16,18 @@ html {
 	font-size: 25px;
 }
 
+@media screen and (width <= 700px) {
+	html {
+		font-size: 22px;
+	}
+}
+
+@media screen and (width <= 600px) {
+	html {
+		font-size: 18px;
+	}
+}
+
 body {
 	color-scheme: dark;
 	background-color: var(--back-color);

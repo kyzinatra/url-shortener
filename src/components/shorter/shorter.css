@@ -47,15 +47,17 @@
 
 	.form__link {
 		width: 75%;
-		padding: 0 25px;
-		height: 3rem;
+		padding: 10px 25px;
+		min-height: calc(3rem - 20px);
 		font-family: inherit;
+		word-wrap: break-word;
 		border-radius: 16px;
 		outline: none;
 		color: var(--font-color);
 		background: var(--back-color);
 		box-shadow: inset 8px 8px 16px var(--box-shadow-primary),
 			inset -8px -8px 16px var(--box-shadow-secondary);
+		word-break: break-word;
 	}
 
 	.form__result {
@@ -64,6 +66,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 15px;
+		flex-wrap: wrap;
 	}
 
 	.form__button {
@@ -91,8 +94,12 @@
 	border: 1px solid var(--outline-color);
 }
 
-@media screen and (width <= 600px) {
+@media screen and (width <= 950px) {
 	.form {
-		width: 90vw;
+		width: 95vw;
+	}
+	.form .form__link {
+		width: 85%;
+		padding: 10px 15px;
 	}
 }
