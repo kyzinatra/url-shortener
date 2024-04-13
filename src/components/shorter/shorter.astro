@@ -1,18 +1,20 @@
 ---
 import { generateShortURL } from "../../service/url/generate";
 import Copy from "../icons/copy.astro";
+
 import "./shorter.css";
 
-let link: null | string = null;
-let error: null | string = null;
+type TFormParams = null | string;
+
+let link: TFormParams = null;
+let error: TFormParams = null;
 
 if (Astro.request.method === "POST") {
+	const DOMAIN_URL = import.meta.env.DOMAIN_URL;
 	try {
-		const body = await Astro.request.formData();
-		const url = body.get("link");
-		if (!url || typeof url !== "string") throw new Error("invalid URL");
+		const url = (await Astro.request.formData()).get("link");
 
-		link = "https://kyzinatra.com/l/" + (await generateShortURL(url, Astro));
+		link = DOMAIN_URL + (await generateShortURL(url, Astro));
 	} catch (e) {
 		error = (e as Error).message;
 	}
@@ -24,11 +26,12 @@ if (Astro.request.method === "POST") {
 		{
 			!link && (
 				<input
-					type="text"
+					type="url"
 					name="link"
 					class="form__link"
-					placeholder="http://google.com"
+					placeholder="https://google.com"
 					required
+					autocomplete="url"
 				/>
 			)
 		}
@@ -42,23 +45,21 @@ if (Astro.request.method === "POST") {
 		}
 		<button type="submit" class="form__button">{link ? "Go Back" : "Generate"} </button>
 	</form>
-	{(<p class="form_error">{error}</p>)}
-
-	<script>
-		const res = document.querySelector(".form__result");
-		res?.addEventListener("click", (e) => {
-			const target = (e.target as HTMLElement).closest("p")!;
-			const content = target.textContent || "";
-			const selection = window.getSelection();
-			const range = document.createRange();
-			range.selectNodeContents(target);
-			selection?.removeAllRanges(); // очистить существующее выделение
-			selection?.addRange(range); // добавить новый диапазон
-
-			if (navigator.clipboard) {
-				navigator.clipboard.writeText(content || "");
-				return;
-			}
-		});
-	</script>
+	<p class="form_error">{error}</p>
 </main>
+
+<script>
+	const res = document.querySelector(".form__result");
+	res?.addEventListener("click", (e) => {
+		const target = (e.target as HTMLElement).closest("p")!;
+		const selection = window.getSelection();
+		const range = document.createRange();
+		range.selectNodeContents(target);
+		selection?.removeAllRanges(); // очистить существующее выделение
+		selection?.addRange(range); // добавить новый диапазон
+
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(target.textContent || "");
+		}
+	});
+</script>

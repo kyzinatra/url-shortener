@@ -17,9 +17,12 @@ async function getNewRef() {
 	return getNewRef();
 }
 
-export async function generateShortURL(url: string, Astro: TAstro): Promise<string> {
-	const parsedURL = new URL(url);
+export async function generateShortURL(url: any, Astro: TAstro): Promise<string> {
+	// check string
+	if (!url || typeof url !== "string") throw new Error("invalid URL");
 	await getDB();
+
+	const parsedURL = new URL(url);
 
 	const clients = await Client.find({
 		ip: Astro.clientAddress,
@@ -30,8 +33,6 @@ export async function generateShortURL(url: string, Astro: TAstro): Promise<stri
 
 	if (clients.length >= 69)
 		throw new Error("The generation limit has been reached. No more than 70 in 24 hours.");
-
-	if (parsedURL.protocol === "http:") parsedURL.protocol = "https:";
 
 	const ref = await getNewRef();
 
