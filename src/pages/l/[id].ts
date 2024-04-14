@@ -19,5 +19,10 @@ export const GET: APIRoute = async ({ redirect, params: { id }, clientAddress, r
 		await link.save();
 	})().catch(() => null);
 
-	return redirect(link.link, 307);
+	// set sec headers
+	request.headers.set("X-XSS-Protection", "1; mode=block");
+	request.headers.set("X-Content-Type-Options", "nosniff");
+	request.headers.set("Strict-Transport-Security", "max-age=3600; includeSubDomains");
+
+	return redirect(link.link, 302);
 };
