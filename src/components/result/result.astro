@@ -9,7 +9,7 @@ export interface Props {
 const { qrUrl, url } = Astro.props;
 ---
 
-<Image src={qrUrl} alt="QR code to site" width="250" height="250" />
+<Image src={qrUrl} class="form__qr" alt="QR code to site" width="250" height="250" />
 <p class="form__link form__result" tabindex="0" aria-label="Shortened link">
 	<Copy />
 	{url}
@@ -22,5 +22,9 @@ const { qrUrl, url } = Astro.props;
 		align-items: center;
 		gap: 15px;
 		flex-wrap: wrap;
+	}
+
+	.form__qr {
+		border-radius: 4px;
 	}
 </style>

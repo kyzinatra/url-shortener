@@ -10,7 +10,7 @@
 .form {
 	width: 75vw;
 	min-height: 350px;
-	border-radius: 28px;
+	border-radius: 10px;
 	background: var(--back-color);
 	box-shadow: 30px 30px 35px var(--box-shadow-primary), -30px -30px 65px var(--box-shadow-secondary),
 		inset 1px 1px 2px 0px var(--glare-primary), inset 20px 20px 50px -15px var(--glare-secondary);
@@ -31,17 +31,17 @@
 	min-height: calc(3rem - 20px);
 	font-family: inherit;
 	word-wrap: break-word;
-	border-radius: 16px;
+	border-radius: 4px;
 	outline: none;
 	color: var(--font-color);
 	background: var(--back-color);
-	box-shadow: inset 8px 8px 16px var(--box-shadow-primary),
-		inset -8px -8px 16px var(--box-shadow-secondary);
+	box-shadow: inset 8px 8px 8px var(--box-shadow-primary),
+		inset -8px -8px 8px var(--box-shadow-secondary);
 	word-break: break-word;
 }
 
 .form__button {
-	border-radius: 16px;
+	border-radius: 4px;
 	padding: 10px 80px;
 	font-size: 1.2rem;
 	color: #222222;
