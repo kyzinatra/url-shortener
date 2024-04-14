@@ -7,7 +7,7 @@ const linkSchema = new mongoose.Schema<ILink>({
 		required: true,
 		type: String,
 	},
-	link: { required: true, type: String, lowercase: true },
+	link: { required: true, type: String },
 	visitors: [{ ref: "client", type: Schema.Types.ObjectId }],
 	creator: { ref: "client", type: Schema.Types.ObjectId },
 	createdAt: { type: Date, expires: 60 * 60 * 24 * 365, default: Date.now }, // Ссылка живет год
