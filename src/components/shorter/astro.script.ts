@@ -20,7 +20,7 @@ res.addEventListener("keyup", (e) => {
 	if (e.key === "Enter") select(e);
 });
 
-save.addEventListener("click", (e) => {
+save.addEventListener("click", () => {
 	const a = document.createElement("a"); //Create <a>
 	const image: HTMLImageElement = document.querySelector("img")!;
 	console.log(image.src);
