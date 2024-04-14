@@ -9,13 +9,15 @@ export const GET: APIRoute = async ({ redirect, params: { id }, clientAddress, r
 	const link = await Link.findOne({ ref: id }).catch(() => null);
 	if (!link) return redirect("/", 307);
 
-	const client = await Client.create({
-		ip: clientAddress,
-		userAgent: request.headers.get("user-agent"),
-	});
+	(async () => {
+		const client = await Client.create({
+			ip: clientAddress,
+			userAgent: request.headers.get("user-agent"),
+		});
 
-	link.visitors.push(client._id);
-	await link.save();
+		link.visitors.push(client._id);
+		await link.save();
+	})().catch(() => null);
 
 	return redirect(link.link, 307);
 };
