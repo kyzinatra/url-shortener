@@ -24,11 +24,13 @@ export const GET: APIRoute = async ({ redirect, params: { id }, clientAddress, r
 	return new Response(null, {
 		status: 302,
 		headers: {
+			Connection: "close",
+			"Cache-Control": "",
 			"X-XSS-Protection": "1; mode=block",
 			"X-Content-Type-Options": "nosniff",
 			"Strict-Transport-Security": "max-age=3600; includeSubDomains",
-			Connection: "Close",
 			Location: link.link,
 		},
+		statusText: "FOUND",
 	});
 };
