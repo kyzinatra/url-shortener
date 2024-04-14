@@ -1,0 +1,26 @@
+---
+import Copy from "../icons/copy.astro";
+import { Image } from "astro:assets";
+export interface Props {
+	url: string;
+	qrUrl: string;
+}
+
+const { qrUrl, url } = Astro.props;
+---
+
+<Image src={qrUrl} alt="QR code to site" width="250" height="250" />
+<p class="form__link form__result" tabindex="0" aria-label="Shortened link">
+	<Copy />
+	{url}
+</p>
+<style>
+	.form__result {
+		font-size: 1.1rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 15px;
+		flex-wrap: wrap;
+	}
+</style>

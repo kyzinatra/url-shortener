@@ -1,18 +1,21 @@
 ---
-import { generateShortURL } from "../../service/url/generate";
-import Copy from "../icons/copy.astro";
-
-import "./shorter.css";
+import { generateShortURL } from "../../service/url/link";
+import { generateQR } from "../../service/url/qr";
+import "./shorter.style.css";
+import Result from "../result/result.astro";
+import Error from "../error/error.astro";
 
 type TFormParams = null | string;
 
 let link: TFormParams = null;
 let error: TFormParams = null;
+let QRUrl: TFormParams = null;
 
 if (Astro.request.method === "POST") {
 	const DOMAIN_URL = import.meta.env.DOMAIN_URL;
 	try {
 		link = DOMAIN_URL + (await generateShortURL(Astro));
+		QRUrl = await generateQR(link);
 	} catch (e) {
 		error = (e as Error).message;
 	}
@@ -33,31 +36,19 @@ if (Astro.request.method === "POST") {
 				/>
 			)
 		}
-		{
-			link && (
-				<p class="form__link form__result">
-					<Copy />
-					{link}
-				</p>
-			)
-		}
-		<button type="submit" class="form__button">{link ? "Go Back" : "Generate"} </button>
+		{link && QRUrl && <Result url={link} qrUrl={QRUrl} />}
+		<div class="form__buttons">
+			<button type="submit" class="form__button">{link ? "Go Back" : "Generate"}</button>
+			{
+				QRUrl && (
+					<button type="button" class="form__save form__button">
+						Save
+					</button>
+				)
+			}
+		</div>
 	</form>
-	<p class="form_error">{error}</p>
+	<Error error={error} />
 </main>
 
-<script>
-	const res = document.querySelector(".form__result");
-	res?.addEventListener("click", (e) => {
-		const target = (e.target as HTMLElement).closest("p")!;
-		const selection = window.getSelection();
-		const range = document.createRange();
-		range.selectNodeContents(target);
-		selection?.removeAllRanges(); // очистить существующее выделение
-		selection?.addRange(range); // добавить новый диапазон
-
-		if (navigator.clipboard) {
-			navigator.clipboard.writeText(target.textContent || "");
-		}
-	});
-</script>
+<script src="./astro.script.ts"></script>
