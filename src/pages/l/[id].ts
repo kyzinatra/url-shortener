@@ -20,9 +20,15 @@ export const GET: APIRoute = async ({ redirect, params: { id }, clientAddress, r
 	})().catch(() => null);
 
 	// set sec headers
-	request.headers.set("X-XSS-Protection", "1; mode=block");
-	request.headers.set("X-Content-Type-Options", "nosniff");
-	request.headers.set("Strict-Transport-Security", "max-age=3600; includeSubDomains");
 
-	return redirect(link.link, 302);
+	return new Response(null, {
+		status: 302,
+		headers: {
+			"X-XSS-Protection": "1; mode=block",
+			"X-Content-Type-Options": "nosniff",
+			"Strict-Transport-Security": "max-age=3600; includeSubDomains",
+			Connection: "Close",
+			Location: link.link,
+		},
+	});
 };
