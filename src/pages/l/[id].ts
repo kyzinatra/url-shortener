@@ -5,9 +5,9 @@ import { getDB } from "../../libs/db";
 
 export const GET: APIRoute = async ({ redirect, params: { id }, clientAddress, request }) => {
 	await getDB();
-	if (!id) return redirect("/", 307);
+	if (!id) return redirect("/", 302);
 	const link = await Link.findOne({ ref: id }).catch(() => null);
-	if (!link) return redirect("/", 307);
+	if (!link) return redirect("/", 302);
 
 	(async () => {
 		const client = await Client.create({
@@ -19,14 +19,9 @@ export const GET: APIRoute = async ({ redirect, params: { id }, clientAddress, r
 		await link.save();
 	})().catch(() => null);
 
-	// set sec headers
-
 	return new Response(null, {
 		status: 302,
 		headers: {
-			"Cache-Control": "",
-			"X-XSS-Protection": "1; mode=block",
-			"X-Content-Type-Options": "nosniff",
 			"Strict-Transport-Security": "max-age=3600; includeSubDomains",
 			Location: link.link,
 		},

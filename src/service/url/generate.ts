@@ -17,7 +17,9 @@ async function getNewRef() {
 	return getNewRef();
 }
 
-export async function generateShortURL(url: any, Astro: TAstro): Promise<string> {
+export async function generateShortURL(Astro: TAstro): Promise<string> {
+	const url = (await Astro.request.formData()).get("link");
+
 	// check string
 	if (!url || typeof url !== "string") throw new Error("invalid URL");
 	await getDB();

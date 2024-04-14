@@ -12,9 +12,7 @@ let error: TFormParams = null;
 if (Astro.request.method === "POST") {
 	const DOMAIN_URL = import.meta.env.DOMAIN_URL;
 	try {
-		const url = (await Astro.request.formData()).get("link");
-
-		link = DOMAIN_URL + (await generateShortURL(url, Astro));
+		link = DOMAIN_URL + (await generateShortURL(Astro));
 	} catch (e) {
 		error = (e as Error).message;
 	}
